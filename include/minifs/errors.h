@@ -1,0 +1,11 @@
+#pragma once
+
+
+#define NO_ERROR 0
+#define NO_SUCH_FILE 1
+#define INVALID_PATH 2
+#define FILE_ALREADY_EXISTS 3
+#define NO_FREE_NODES_AVAILABLE 4
+#define NOT_A_DIRECTORY 5
+#define NOT_A_VALID_PATH 6
+#define WRONG_FILE_NAME 7
