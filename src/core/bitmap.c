@@ -2,6 +2,7 @@
 #include "minifs/disk.h"
 #include "minifs/errors.h"
 #include "minifs/utils.h"
+#include <stdlib.h>
 
 
 size_t alloc_bitmap_node(FILE* file, size_t offset, size_t length, int * error) {

@@ -1,4 +1,5 @@
 #include "minifs/utils.h"
+#include <string.h>
 
 
 uint8_t get_bit(uint8_t val, uint8_t bit_num) {
