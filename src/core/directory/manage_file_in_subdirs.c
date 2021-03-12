@@ -30,7 +30,11 @@ found_file_info_t dir_data__get_file_in_subdirs(const i_node_data_t *dir_i_node_
         }
 
         last_dir_i_node_data_id = dir_i_node_data_id;
-        i_node_data_t i_node_data = i_node_id__get_data(dir_i_node_data_id);
+        i_node_data_t i_node_data = i_node_id__get_data(dir_i_node_data_id, error);
+        if (*error != NO_ERROR) {
+            return found_file_info;
+        }
+
         dir_i_node_data_id = dir_data_get_file_i_node(&i_node_data, token, file_i_node_id, error);
         if (*error == NOT_A_DIRECTORY) {
             *error = NOT_A_VALID_PATH;
@@ -49,7 +53,11 @@ found_file_info_t dir_data__get_file_in_subdirs(const i_node_data_t *dir_i_node_
 }
 
 found_file_info_t dir_data_id__get_file_in_subdirs(uint8_t dir_i_node_id, char *filepath, uint8_t file_i_node_id, int *error) {
-    i_node_data_t dir_i_node_data = i_node_id__get_data(dir_i_node_id);
+    i_node_data_t dir_i_node_data = i_node_id__get_data(dir_i_node_id, error);
+    if (*error != NO_ERROR) {
+        return (found_file_info_t) {0};
+    }
+
     return dir_data__get_file_in_subdirs(&dir_i_node_data, dir_i_node_id, filepath, file_i_node_id, error);
 }
 
@@ -92,10 +100,17 @@ void dir_data__write_file_in_subdirs(
 }
 
 void dir_data_id__write_file_in_subdirs(uint8_t dir_i_node_data_id, char *filepath, uint8_t file_i_node_id, int *error) {
-    i_node_data_t dir_i_node_data = i_node_id__get_data(dir_i_node_data_id);
+    i_node_data_t dir_i_node_data = i_node_id__get_data(dir_i_node_data_id, error);
+    if (*error != NO_ERROR) {
+        return;
+    }
+
     dir_data__write_file_in_subdirs(&dir_i_node_data, dir_i_node_data_id, filepath, file_i_node_id, error);
     if (*error == NO_ERROR) {
-        i_node__save(dir_i_node_data_id, &dir_i_node_data);
+        i_node__save(dir_i_node_data_id, &dir_i_node_data, error);
+        if (*error != NO_ERROR) {
+            return;
+        }
     }
 }
 
@@ -142,9 +157,16 @@ void dir_data__unregister_file_in_subdirs(
 }
 
 void dir_data_id__unregister_file_in_subdirs(uint8_t dir_i_node_data_id, char *filepath, uint8_t file_i_node_id, int *error) {
-    i_node_data_t dir_i_node_data = i_node_id__get_data(dir_i_node_data_id);
+    i_node_data_t dir_i_node_data = i_node_id__get_data(dir_i_node_data_id, error);
+    if (*error != NO_ERROR) {
+        return;
+    }
+
     dir_data__unregister_file_in_subdirs(&dir_i_node_data, dir_i_node_data_id, filepath, file_i_node_id, error);
     if (*error == NO_ERROR) {
-        i_node__save(dir_i_node_data_id, &dir_i_node_data);
+        i_node__save(dir_i_node_data_id, &dir_i_node_data, error);
+        if (*error != NO_ERROR) {
+            return;
+        }
     }
 }

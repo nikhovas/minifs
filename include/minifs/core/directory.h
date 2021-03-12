@@ -17,8 +17,8 @@ typedef struct __attribute__((packed)) {
 } directory_data_t;
 
 // directory data loading operations
-directory_data_t dir_data_get_by_id(uint8_t dir_data_id);
-void dir_data_save_by_id(uint8_t dir_data_id, directory_data_t *block_data);
+directory_data_t dir_data_get_by_id(uint8_t dir_data_id, int *error);
+void dir_data_save_by_id(uint8_t dir_data_id, directory_data_t *block_data, int *error);
 
 
 typedef struct {
@@ -53,8 +53,8 @@ void dir_data_id__unregister_file(uint8_t dir_i_node_id, char* filename, uint8_t
 
 // existant
 uint8_t dir_data_create(int *error);
-void dir_data__delete(i_node_data_t *dir_i_node_data, uint8_t dir_i_node_id);
-void dir_data_id__delete(uint8_t dir_i_node_id);
+void dir_data__delete(i_node_data_t *dir_i_node_data, uint8_t dir_i_node_id, int *error);
+void dir_data_id__delete(uint8_t dir_i_node_id, int *error);
 
 
 // get file i-node
@@ -62,4 +62,4 @@ uint8_t dir_data_get_file_i_node(i_node_data_t *dir_i_node_data, char *filename,
 
 
 // clear
-void dir_data_clear(i_node_data_t *dir_i_node_data);
+void dir_data_clear(i_node_data_t *dir_i_node_data, int *error);

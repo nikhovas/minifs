@@ -9,7 +9,10 @@ size_t alloc_bitmap_node(FILE* file, size_t offset, size_t length, int * error) 
 
     length = length / 8;
     uint8_t* data = malloc(length);
-    get_part_file(data, file, offset, length);
+    get_part_file(data, file, offset, length, error);
+    if (*error != NO_ERROR) {
+        return 0;
+    }
 
     for (size_t i = 0; i < length; ++i) {
         uint8_t val = data[i];
@@ -17,7 +20,10 @@ size_t alloc_bitmap_node(FILE* file, size_t offset, size_t length, int * error) 
             uint8_t bit_value = get_bit(val, j);
             if (bit_value == 0) {
                 val = set_bit(val, j);
-                set_part_file(&val, file, offset + i * 8, 1);
+                set_part_file(&val, file, offset + i * 8, 1, error);
+                if (*error != NO_ERROR) {
+                    return 0;
+                }
                 return i * 8 + j;
             }
         }
@@ -28,9 +34,19 @@ size_t alloc_bitmap_node(FILE* file, size_t offset, size_t length, int * error) 
 }
 
 
-void free_bitmap_node(FILE* file, size_t offset, size_t number) {
+void free_bitmap_node(FILE* file, size_t offset, size_t number, int *error) {
+    *error = NO_ERROR;
+
     uint8_t val;
-    get_part_file(&val, file, offset + number / 8, 1);
+    get_part_file(&val, file, offset + number / 8, 1, error);
+    if (*error != NO_ERROR) {
+        return;
+    }
+
     val = set_bit(val, number % 8);
-    set_part_file(&val, file, offset + number / 8, 1);
+
+    set_part_file(&val, file, offset + number / 8, 1, error);
+    if (*error != NO_ERROR) {
+        return;
+    }
 }

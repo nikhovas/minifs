@@ -5,16 +5,26 @@
 #include "minifs/core/directory.h"
 #include "minifs/disk.h"
 #include <unistd.h>
+#include "minifs/core/superblock.h"
+#include "minifs/constants.h"
 
 
 #define ROOT_DIR_ID 0
 
 
-void high_level__filesystem_create() {
+void high_level__filesystem_create(int *error) {
     if (access("filesystem", F_OK) != 0) {
-        create_file("filesystem");
+        create_file("filesystem", error);
+        set_file(fopen("filesystem", "r+b"));
+
+        superblock_data_t superblock_data;
+        superblock_data.i_node_size = I_NODE_SIZE;
+        superblock_data.block_size = BLOCK_SIZE;
+        superblock_data.max_blocks = BLOCK_COUNT;
+        superblock_data.max_i_nodes = I_NODE_COUNT;
+        superblock_data.root_dir_id = dir_data_create(error);
+        superblock__save(&superblock_data, error);
+    } else {
+        set_file(fopen("filesystem", "r+b"));
     }
-    set_file(fopen("filesystem", "r+b"));
-    int error;
-    dir_data_create(&error);
 }

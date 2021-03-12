@@ -23,6 +23,7 @@ add_executable(fs
         core/i_node/manage_block_count.c
         core/bitmap.c
         core/block.c
+        core/superblock.c
         high_level/directory.c
         high_level/file.c
         high_level/filesystem.c

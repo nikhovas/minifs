@@ -5,8 +5,8 @@
 
 
 // manage block data
-block_data_t file__get_block_data(i_node_data_t *i_node_data, uint8_t block_number);
-void file__set_block_data(i_node_data_t *i_node_data, uint8_t block_number, block_data_t* block_data);
+block_data_t file__get_block_data(i_node_data_t *i_node_data, uint8_t block_number, int *error);
+void file__set_block_data(i_node_data_t *i_node_data, uint8_t block_number, block_data_t* block_data, int *error);
 
 
 //// manage block count
@@ -16,13 +16,13 @@ void file__set_block_data(i_node_data_t *i_node_data, uint8_t block_number, bloc
 
 
 // get contents
-void file__get_contents(i_node_data_t *i_node_data, uint8_t* contents);
-void file_id__get_contents(uint8_t i_node_id, uint8_t* contents);
+void file__get_contents(i_node_data_t *i_node_data, uint8_t* contents, int *error);
+void file_id__get_contents(uint8_t i_node_id, uint8_t* contents, int *error);
 
 
 // get length
 uint16_t file__get_length(i_node_data_t *i_node_data);
-uint16_t file_id__get_length(uint8_t i_node_id);
+uint16_t file_id__get_length(uint8_t i_node_id, int *error);
 
 
 // overwrites
@@ -31,5 +31,5 @@ void file_id__overwrite(uint8_t i_node_id, uint8_t* data, uint16_t length, int *
 
 
 // existant operations
-void file_id__remove(uint8_t i_node_id);
+void file_id__remove(uint8_t i_node_id, int *error);
 uint8_t file__create(int * error);

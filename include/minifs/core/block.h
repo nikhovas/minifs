@@ -9,9 +9,9 @@ typedef struct __attribute__((packed)) {
 } block_data_t;
 
 
-block_data_t get_block_data_by_id(uint8_t block_id);
-void write_bock_data_by_id(uint8_t block_id, block_data_t *block_data);
+block_data_t get_block_data_by_id(uint8_t block_id, int *error);
+void write_bock_data_by_id(uint8_t block_id, block_data_t *block_data, int *error);
 
 
 uint8_t alloc_block(int *error);
-void free_block(uint8_t block_id);
+void free_block(uint8_t block_id, int *error);

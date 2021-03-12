@@ -21,16 +21,16 @@ i_node_block_info_t get_i_node_block_info(i_node_data_t *i_node_data);
 
 
 // disk operations
-i_node_data_t i_node_id__get_data(uint8_t i_node_id);
-void i_node__save(uint8_t i_node_id, i_node_data_t *i_node_data);
+i_node_data_t i_node_id__get_data(uint8_t i_node_id, int *error);
+void i_node__save(uint8_t i_node_id, i_node_data_t *i_node_data, int *error);
 
 
 // registration operations
 uint8_t i_node__alloc(int *error);
-void i_node_id__free(uint8_t i_node_id);
+void i_node_id__free(uint8_t i_node_id, int *error);
 
 
 uint8_t i_node__get_block_count(i_node_data_t *i_node_data);
 void i_node__add_blocks_to_end(i_node_data_t *i_node_data, uint8_t new_blocks, int* error);
-void i_node__remove_blocks_from_end(i_node_data_t *i_node_data, uint8_t remove_block_count);
+void i_node__remove_blocks_from_end(i_node_data_t *i_node_data, uint8_t remove_block_count, int *error);
 void i_node__set_block_count(i_node_data_t *i_node_data, uint8_t new_block_size, int * error);

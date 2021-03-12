@@ -9,3 +9,8 @@
 #define NOT_A_DIRECTORY 5
 #define NOT_A_VALID_PATH 6
 #define WRONG_FILE_NAME 7
+#define FILE_ERROR 8
+#define NO_SUCH_SOURCE 9
+#define NO_SUCH_DESTINATION 10
+#define FILE_LIMIT 11
+#define BLOCKS_LIMIT 12
