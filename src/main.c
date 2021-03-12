@@ -18,7 +18,11 @@ void cmd_file_get(char * name, int *error) {
 
 
 void cmd_file_write(char * name, char * contents, int *error) {
-    high_level__file_write(name, contents, error);
+    if (strlen(contents) > 256) {
+        printf("Data is too big\n");
+    } else {
+        high_level__file_write(name, contents, error);
+    }
 }
 
 
